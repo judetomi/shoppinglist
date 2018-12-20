@@ -329,6 +329,29 @@ $( document ).on( "pagecreate", "#shoppinglist-page", function() {
        sort = false;
      }
   });
+  
+  // import list items
+  $('#importListBtn').on('click', function(e) {
+    e.preventDefault();
+    var dataToSend = {
+      action: 'import_list',
+      items: $('#importListForm').serialize(),
+      list_id: $('#shopLists').val(),
+      position: $("#list").children().length
+    }
+    $.post('index.php', dataToSend, function(data) {
+      if(data) {
+        $.each(data, function(key, item) {
+          var template = $('#template').html();
+          Mustache.parse(template);
+          var rendered = Mustache.render(template, {itemid: item.itemid, title: item.title, description: item.description, qty: item.qty, position: item.position});
+          $('#list').append(rendered);
+        });
+        $('#list').listview('refresh');
+        $("#importList").popup("close");
+      }
+    },'json');
+  });
 
   // enable multiple actions on one button
   $('#sortList').on('mouseout', function(e) {

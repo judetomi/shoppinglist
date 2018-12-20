@@ -26,6 +26,9 @@
 			case 'update_position':
 				$app->updatePosition();
 				break;
+			case 'import_list':
+				$app->importListItems();
+				break;
 			default:
 				$app->getList();
 		}
@@ -149,15 +152,25 @@
 					<button type="submit" id="addListBtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Lisää</button>
 				</div>
 		</form>
-		</div><!-- /add new list-->
-
+	</div><!-- /import rows-->
+		<div data-role="popup" id="importList" data-theme="a" class="ui-corner-all">
+		<form action="./" method="post" id="importListForm">
+				<div style="padding:10px 20px;">
+					<h3 id="popUpTitle">Tuo listalle</h3>
+					<label for="importRows" class="ui-hidden-accessible">Rivit:</label>
+					<textarea name="import" id="importRows" value="" placeholder="Copy pastaa rivit tähän" data-theme="a"></textarea>
+					<input type="hidden" name="csrf" value="<?= $_SESSION["token"]; ?>">
+					<button type="submit" id="importListBtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Lisää</button>
+				</div>
+		</form>
+		</div>
 		<div class="navigation" data-role="footer" data-theme="b" style="overflow:hidden;">
 		    <div data-role="navbar" data-iconpos="top">
 		        <ul>
 		            <li><a id="clearList" href="#" data-icon="recycle">Tyhjennä lista</a></li>
 								<li><a id="deleteList" href="#" data-icon="delete">Poista lista</a></li>
 								<li><a id="sortList" href="#" data-icon="edit">Muuta järjestystä</a></li>
-								<!--li><a id="importList" href="#" data-icon="cloud">Tuo lista</a></li //-->
+								<li><a id="importListRows" href="#importList" data-icon="cloud" data-rel="popup" data-position-to="window" data-transition="pop">Tuo lista</a></li>
 		        </ul>
 		    </div><!-- /navbar -->
 		</div><!-- /footer -->
